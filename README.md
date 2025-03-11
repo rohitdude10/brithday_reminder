@@ -69,28 +69,38 @@ The frontend will be available at http://localhost:3000/
 
 ## Deployment
 
-### Deploying Backend to Render
+### Deploying Backend to Koyeb
 
-1. Create a new Web Service:
-   - Select "Python"
-   - Connect your repository
-   - Configure the service:
-     - Name: `birthday-reminder-backend`
-     - Build Command: `pip install -r birthday_reminder_backend/requirements.txt`
-     - Start Command: `cd birthday_reminder_backend && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn birthday_reminder_backend.wsgi:application --log-file -`
+1. Create a Koyeb account at https://koyeb.com/
 
-2. Set environment variables:
-   - `ALLOWED_HOSTS`: Your domain names (e.g., `brithday-reminder-backend.onrender.com,localhost,127.0.0.1`)
-   - `CORS_ALLOWED_ORIGINS`: Your frontend URL (e.g., `https://brithday-reminder.onrender.com,http://localhost:3000`)
-   - `DEBUG`: `False`
-   - `SECRET_KEY`: A secure random string
-
-3. Deploy the service
-
-4. **Important**: Make sure migrations are run during deployment. The start command includes `python manage.py migrate`, but you can also run it manually in the Render shell if needed:
+2. Install the Koyeb CLI (optional):
    ```
-   cd birthday_reminder_backend
-   python manage.py migrate
+   # For macOS
+   brew install koyeb/tap/cli
+   
+   # For Linux
+   curl -fsSL https://cli.koyeb.com/install.sh | bash
+   ```
+
+3. Deploy using the Koyeb web interface:
+   - Connect your GitHub repository
+   - Create a new app from the repository
+   - Select the "Docker" runtime
+   - Set the build directory to `birthday_reminder_backend`
+   - Configure environment variables:
+     - `DEBUG`: `False`
+     - `ALLOWED_HOSTS`: `*.koyeb.app,localhost,127.0.0.1`
+     - `CORS_ALLOWED_ORIGINS`: Your frontend URL (e.g., `https://brithday-reminder.onrender.com,http://localhost:3000`)
+     - `SECRET_KEY`: A secure random string
+
+4. Alternatively, deploy using the Koyeb CLI:
+   ```
+   koyeb app init birthday-reminder --git github.com/yourusername/birthday-reminder --git-branch main --git-builder dockerfile --git-workdir birthday_reminder_backend --ports 8000:http --env DEBUG=False --env ALLOWED_HOSTS=*.koyeb.app,localhost,127.0.0.1 --env CORS_ALLOWED_ORIGINS=https://brithday-reminder.onrender.com,http://localhost:3000
+   ```
+
+5. Once deployed, update your frontend's `.env.production` file with the new backend URL:
+   ```
+   REACT_APP_API_URL=https://your-app-name.koyeb.app/api
    ```
 
 ### Deploying Frontend to Render

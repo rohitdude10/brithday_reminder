@@ -26,7 +26,15 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-oiv&5w%s1g)azxm!n!!li
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Allow all hosts from Koyeb and local development
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,*.koyeb.app').split(',')
+
+# For Koyeb deployment
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.koyeb.app',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
 
 
 # Application definition
@@ -130,11 +138,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Whitenoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Simplified static file serving for Koyeb
+WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
