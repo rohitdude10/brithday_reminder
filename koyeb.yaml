@@ -16,7 +16,7 @@ services:
       - name: DEBUG
         value: "False"
       - name: ALLOWED_HOSTS
-        value: "*.koyeb.app,localhost,127.0.0.1"
+        value: "*.koyeb.app,enchanting-bernette-personalproject10-57288795.koyeb.app,localhost,127.0.0.1"
       - name: CORS_ALLOWED_ORIGINS
         value: "https://brithday-reminder.onrender.com,http://localhost:3000"
       - name: PORT

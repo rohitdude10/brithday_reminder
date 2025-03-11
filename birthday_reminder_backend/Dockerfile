@@ -14,9 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY . .
 
-# Make entrypoint script executable
-COPY entrypoint.sh /app/entrypoint.sh
+# Make scripts executable
 RUN chmod +x /app/entrypoint.sh
+RUN chmod +x /app/update_allowed_hosts.py
 
 # Run migrations and collect static files
 RUN python manage.py collectstatic --noinput

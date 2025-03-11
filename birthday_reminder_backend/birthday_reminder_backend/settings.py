@@ -27,11 +27,23 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-oiv&5w%s1g)azxm!n!!li
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 # Allow all hosts from Koyeb and local development
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,*.koyeb.app').split(',')
+allowed_hosts = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,*.koyeb.app').split(',')
+# Process wildcards in allowed hosts
+ALLOWED_HOSTS = []
+for host in allowed_hosts:
+    if host.startswith('*.'):
+        # If this is a wildcard domain, also add the non-wildcard version
+        ALLOWED_HOSTS.append(host[2:])
+        # Add specific subdomains that we know about
+        if host[2:] == 'koyeb.app':
+            ALLOWED_HOSTS.append('enchanting-bernette-personalproject10-57288795.koyeb.app')
+    else:
+        ALLOWED_HOSTS.append(host)
 
 # For Koyeb deployment
 CSRF_TRUSTED_ORIGINS = [
     'https://*.koyeb.app',
+    'https://enchanting-bernette-personalproject10-57288795.koyeb.app',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
 ]
