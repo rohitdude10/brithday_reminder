@@ -69,6 +69,30 @@ The frontend will be available at http://localhost:3000/
 
 ## Deployment
 
+### Deploying Backend to Render
+
+1. Create a new Web Service:
+   - Select "Python"
+   - Connect your repository
+   - Configure the service:
+     - Name: `birthday-reminder-backend`
+     - Build Command: `pip install -r birthday_reminder_backend/requirements.txt`
+     - Start Command: `cd birthday_reminder_backend && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn birthday_reminder_backend.wsgi:application --log-file -`
+
+2. Set environment variables:
+   - `ALLOWED_HOSTS`: Your domain names (e.g., `brithday-reminder-backend.onrender.com,localhost,127.0.0.1`)
+   - `CORS_ALLOWED_ORIGINS`: Your frontend URL (e.g., `https://brithday-reminder.onrender.com,http://localhost:3000`)
+   - `DEBUG`: `False`
+   - `SECRET_KEY`: A secure random string
+
+3. Deploy the service
+
+4. **Important**: Make sure migrations are run during deployment. The start command includes `python manage.py migrate`, but you can also run it manually in the Render shell if needed:
+   ```
+   cd birthday_reminder_backend
+   python manage.py migrate
+   ```
+
 ### Deploying Frontend to Render
 
 1. Create a Render account at https://render.com/
@@ -86,22 +110,4 @@ The frontend will be available at http://localhost:3000/
 4. Set environment variables:
    - `REACT_APP_API_URL`: URL of your deployed backend API (e.g., `https://your-backend-url.onrender.com/api`)
 
-5. Deploy the service
-
-### Deploying Backend to Render (Optional)
-
-1. Create a new Web Service:
-   - Select "Python"
-   - Connect your repository
-   - Configure the service:
-     - Name: `birthday-reminder-backend`
-     - Build Command: `pip install -r birthday_reminder_backend/requirements.txt`
-     - Start Command: `cd birthday_reminder_backend && python manage.py migrate && python manage.py runserver 0.0.0.0:$PORT`
-
-2. Set environment variables:
-   - `ALLOWED_HOSTS`: Your domain names (e.g., `your-backend-url.onrender.com`)
-   - `CORS_ALLOWED_ORIGINS`: Your frontend URL (e.g., `https://your-frontend-url.onrender.com`)
-   - `DEBUG`: `False`
-   - `SECRET_KEY`: A secure random string
-
-3. Deploy the service 
+5. Deploy the service 

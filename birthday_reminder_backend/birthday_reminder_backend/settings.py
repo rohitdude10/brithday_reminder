@@ -83,12 +83,17 @@ WSGI_APPLICATION = 'birthday_reminder_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# Use SQLite for development and production (for simplicity)
+# In a real production environment, you might want to use PostgreSQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Ensure the database directory exists
+os.makedirs(os.path.dirname(BASE_DIR / 'db.sqlite3'), exist_ok=True)
 
 
 # Password validation
