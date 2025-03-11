@@ -13,6 +13,8 @@ services:
     ports:
       - port: 8000
         http: "/"
+    run:
+      command: /app/start.sh
     env:
       - name: DEBUG
         value: "False"
