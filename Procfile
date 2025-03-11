@@ -1,0 +1,1 @@
+web: cd birthday_reminder_backend && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn birthday_reminder_backend.wsgi:application --log-file - 
