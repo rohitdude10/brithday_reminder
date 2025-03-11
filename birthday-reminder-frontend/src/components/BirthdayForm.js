@@ -36,16 +36,24 @@ const BirthdayForm = ({ onSubmit, initialData, onCancel }) => {
       return;
     }
 
+    // Ensure date is in YYYY-MM-DD format for Django
     const formattedDate = dateOfBirth ? 
       `${dateOfBirth.getFullYear()}-${String(dateOfBirth.getMonth() + 1).padStart(2, '0')}-${String(dateOfBirth.getDate()).padStart(2, '0')}` : 
       null;
 
+    if (!formattedDate) {
+      setValidated(true);
+      return;
+    }
+
     const birthdayData = {
-      name,
+      name: name.trim(),
       date_of_birth: formattedDate,
-      notes
+      notes: notes || ''  // Ensure notes is never null
     };
 
+    console.log('Submitting data:', birthdayData);
+    
     onSubmit(birthdayData);
     
     if (!initialData) {

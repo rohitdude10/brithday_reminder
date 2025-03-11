@@ -30,16 +30,23 @@ function App() {
 
   const handleAddBirthday = async (birthdayData) => {
     try {
+      setError(null);
+      console.log('Adding birthday with data:', birthdayData);
       const response = await api.post('/birthdays/', birthdayData);
       setBirthdays([...birthdays, response.data]);
     } catch (err) {
       console.error('Error adding birthday:', err);
-      setError('Failed to add birthday. Please try again.');
+      const errorMessage = err.response && err.response.data 
+        ? JSON.stringify(err.response.data) 
+        : 'Failed to add birthday. Please try again.';
+      setError(`Error: ${errorMessage}`);
     }
   };
 
   const handleUpdateBirthday = async (id, birthdayData) => {
     try {
+      setError(null);
+      console.log('Updating birthday with data:', birthdayData);
       const response = await api.put(`/birthdays/${id}/`, birthdayData);
       setBirthdays(
         birthdays.map((birthday) => (birthday.id === id ? response.data : birthday))
@@ -47,7 +54,10 @@ function App() {
       setEditingBirthday(null);
     } catch (err) {
       console.error('Error updating birthday:', err);
-      setError('Failed to update birthday. Please try again.');
+      const errorMessage = err.response && err.response.data 
+        ? JSON.stringify(err.response.data) 
+        : 'Failed to update birthday. Please try again.';
+      setError(`Error: ${errorMessage}`);
     }
   };
 
