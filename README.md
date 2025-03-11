@@ -86,16 +86,17 @@ The frontend will be available at http://localhost:3000/
    - Connect your GitHub repository
    - Create a new app from the repository
    - Select the "Docker" runtime
-   - Set the build directory to `birthday_reminder_backend`
+   - Set the Dockerfile path to `birthday_reminder_backend/Dockerfile`
    - Configure environment variables:
      - `DEBUG`: `False`
      - `ALLOWED_HOSTS`: `*.koyeb.app,localhost,127.0.0.1`
      - `CORS_ALLOWED_ORIGINS`: Your frontend URL (e.g., `https://brithday-reminder.onrender.com,http://localhost:3000`)
      - `SECRET_KEY`: A secure random string
+     - `PORT`: `8000`
 
 4. Alternatively, deploy using the Koyeb CLI:
    ```
-   koyeb app init birthday-reminder --git github.com/yourusername/birthday-reminder --git-branch main --git-builder dockerfile --git-workdir birthday_reminder_backend --ports 8000:http --env DEBUG=False --env ALLOWED_HOSTS=*.koyeb.app,localhost,127.0.0.1 --env CORS_ALLOWED_ORIGINS=https://brithday-reminder.onrender.com,http://localhost:3000
+   koyeb app init birthday-reminder --docker birthday_reminder_backend/Dockerfile --git github.com/yourusername/birthday-reminder --git-branch main --ports 8000:http --env DEBUG=False --env ALLOWED_HOSTS=*.koyeb.app,localhost,127.0.0.1 --env CORS_ALLOWED_ORIGINS=https://brithday-reminder.onrender.com,http://localhost:3000 --env PORT=8000
    ```
 
 5. Once deployed, update your frontend's `.env.production` file with the new backend URL:

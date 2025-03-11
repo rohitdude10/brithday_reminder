@@ -2,19 +2,16 @@ name: birthday-reminder
 services:
   - name: backend
     type: web
-    runtime: python
+    runtime: docker
     region: fra
     git:
       repository: YOUR_GITHUB_REPOSITORY_URL
       branch: main
-    build:
-      builder: dockerfile
-      workdir: birthday_reminder_backend
+    docker:
+      dockerfile: birthday_reminder_backend/Dockerfile
     ports:
       - port: 8000
         http: "/"
-    run:
-      command: /app/start.sh
     env:
       - name: DEBUG
         value: "False"
